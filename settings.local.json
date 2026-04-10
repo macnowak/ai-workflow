@@ -1,0 +1,22 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(./gradlew clean test:*)",
+      "Bash(docker info:*)",
+      "Bash(docker run:*)",
+      "Bash(git add:*)",
+      "Bash(git commit -m \"$\\(cat <<''EOF''\nfeat\\(PALI-191\\): add Limit entity with repository and persistence layer\n\n- Add Limit JPA entity with JSONB tag_pattern and metadata fields\n- Add LimitType, WindowType, EnforcementType enums\n- Add LimitRepository with custom queries for filtering and search\n- Add Liquibase changelog for limits table with GIN indexes\n- Add JpaConfiguration for auditing support\n- Add TestContainersConfiguration for PostgreSQL integration tests\n- Add LimitRepositoryTest with Spock\n- Update CLAUDE.md with pragmatic hexagonal architecture\n\nCo-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>\nEOF\n\\)\")",
+      "Bash(./gradlew build:*)",
+      "Bash(./gradlew test:*)",
+      "Bash(./gradlew compileJava:*)",
+      "Bash(./gradlew checkstyleMain:*)",
+      "Bash(./gradlew openApiGenerate:*)",
+      "Bash(./gradlew check:*)",
+      "Bash(./gradlew clean build:*)",
+      "Bash(xargs cat:*)",
+      "Bash(./gradlew componentTest:*)",
+      "Bash(git commit:*)",
+      "Skill(code-review)"
+    ]
+  }
+}
