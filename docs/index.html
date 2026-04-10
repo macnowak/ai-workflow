@@ -1,0 +1,1442 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI-Assisted Development Workflow for Spring Boot</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/reset.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/reveal.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/theme/night.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/monokai.min.css">
+    <style>
+        :root {
+            --r-heading-font: 'Source Sans Pro', Helvetica, sans-serif;
+            --r-main-font-size: 32px;
+        }
+        .reveal h1, .reveal h2, .reveal h3 {
+            text-transform: none;
+        }
+        .reveal h1 {
+            font-size: 2.2em;
+        }
+        .reveal h2 {
+            font-size: 1.6em;
+            color: #58a6ff;
+        }
+        .reveal h3 {
+            font-size: 1.2em;
+            color: #8b949e;
+        }
+        .reveal table {
+            font-size: 0.7em;
+            margin: 0 auto;
+        }
+        .reveal table th {
+            background: #238636;
+            color: white;
+        }
+        .reveal table td, .reveal table th {
+            padding: 0.4em 0.8em;
+            border: 1px solid #30363d;
+        }
+        .reveal table tr:nth-child(even) {
+            background: #161b22;
+        }
+        .reveal pre {
+            font-size: 0.55em;
+            width: 100%;
+        }
+        .reveal code {
+            background: #1f2428;
+            padding: 0.1em 0.3em;
+            border-radius: 4px;
+        }
+        .reveal pre code {
+            padding: 1em;
+            max-height: 500px;
+        }
+        .reveal ul {
+            display: block;
+        }
+        .reveal li {
+            margin-bottom: 0.5em;
+        }
+        .two-columns {
+            display: flex;
+            gap: 2em;
+        }
+        .two-columns > div {
+            flex: 1;
+        }
+        .highlight-green {
+            color: #3fb950;
+        }
+        .highlight-blue {
+            color: #58a6ff;
+        }
+        .highlight-orange {
+            color: #d29922;
+        }
+        .highlight-red {
+            color: #f85149;
+        }
+        .small {
+            font-size: 0.7em;
+        }
+        .diagram {
+            font-family: monospace;
+            font-size: 0.8em;
+            line-height: 1.4;
+            text-align: left;
+            background: #0d1117;
+            padding: 1em;
+            border-radius: 8px;
+        }
+        .emoji {
+            font-size: 1.5em;
+        }
+        .fragment.semi-fade-out.visible {
+            opacity: 0.3;
+        }
+        blockquote {
+            background: #161b22;
+            border-left: 4px solid #238636;
+            padding: 0.5em 1em;
+            font-style: italic;
+        }
+        .agent-card {
+            background: #21262d;
+            border-radius: 6px;
+            padding: 0.5em 0.8em;
+            text-align: left;
+        }
+        .agent-card-future {
+            border: 1px dashed #d29922;
+            opacity: 0.7;
+        }
+        .agent-card h4 {
+            color: #58a6ff;
+            margin: 0 0 0.2em 0;
+            font-size: 0.75em;
+        }
+        .agent-card p {
+            font-size: 0.55em;
+            margin: 0;
+            color: #8b949e;
+        }
+    </style>
+</head>
+<body>
+    <div class="reveal">
+        <div class="slides">
+
+            <!-- Title Slide -->
+            <section>
+                <h1>AI-Assisted Development Workflow</h1>
+                <h3>for Spring Boot Microservices</h3>
+                <p class="small" style="margin-top: 2em;">
+                    Structured AI assistance with specialized agents
+                </p>
+                <aside class="notes">
+                    Welcome everyone. Today I'll introduce our AI-assisted development workflow
+                    that helps us build Spring Boot microservices more efficiently and consistently.
+                </aside>
+            </section>
+
+            <!-- Agenda -->
+            <section>
+                <h2>Agenda</h2>
+                <ol>
+                    <li>The Problem: Developer Cognitive Load</li>
+                    <li>The Solution: Structured AI Assistance</li>
+                    <li>Specification & Planning: Think First, Code Later</li>
+                    <li>The Agents: Specialized Knowledge</li>
+                    <li>Live Demo</li>
+                    <li>The Developer Experience</li>
+                    <li>Customization & Governance</li>
+                    <li>Getting Started</li>
+                </ol>
+                <aside class="notes">
+                    Here's what we'll cover. We'll start with the problem we're solving,
+                    then look at the solution, understand the planning phases, dive into 
+                    the agents, see a demo, and discuss how this changes our daily work.
+                </aside>
+            </section>
+
+            <!-- Part 1: The Problem -->
+            <section>
+                <section>
+                    <h1>Part 1</h1>
+                    <h2>The Problem</h2>
+                    <p class="emoji">🤯</p>
+                </section>
+
+                <section>
+                    <h2>What Takes Time in Feature Development?</h2>
+                    <ul>
+                        <li class="fragment">Context switching between layers</li>
+                        <li class="fragment">Remembering patterns and conventions</li>
+                        <li class="fragment">Writing boilerplate code</li>
+                        <li class="fragment">Inconsistency across team members</li>
+                        <li class="fragment">Onboarding new developers</li>
+                    </ul>
+                    <aside class="notes">
+                        Think about your last feature. How much time did you spend
+                        just remembering the right patterns vs actual problem solving?
+                    </aside>
+                </section>
+
+                <section>
+                    <h2>The Cognitive Load Problem</h2>
+                    <p>Simple feature: <em>"Add customer credit score lookup"</em></p>
+                    <div class="fragment">
+                        <h4>Files needed:</h4>
+                        <div class="two-columns small">
+                            <div>
+                                <ul>
+                                    <li>CreditScoreClient.java</li>
+                                    <li>CreditScoreClientConfig.java</li>
+                                    <li>CreditScoreClientProperties.java</li>
+                                    <li>CreditScoreResponse.java</li>
+                                    <li>CreditScoreClientException.java</li>
+                                    <li>CreditScoreHealthIndicator.java</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <ul>
+                                    <li>CustomerFacade.java (update)</li>
+                                    <li>CustomerController.java (update)</li>
+                                    <li>CreditScoreClientTest.groovy</li>
+                                    <li>CustomerFacadeTest.groovy (update)</li>
+                                    <li>application.yml (update)</li>
+                                    <li>...</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="fragment highlight-orange" style="margin-top: 1em;">
+                        10-15 files, each with specific patterns to remember
+                    </p>
+                    <aside class="notes">
+                        This is a real example. A "simple" feature requires touching
+                        many files, each with its own conventions and patterns.
+                    </aside>
+                </section>
+
+                <section>
+                    <h2>Pattern Explosion</h2>
+                    <pre><code class="java" data-trim>
+// Did I need @RequiredArgsConstructor or explicit constructor?
+// Was it @Service or plain class with @Bean?
+// Circuit breaker config - what were the defaults?
+// URL placeholder syntax - {id} or :id?
+// Test class naming - *Test or *Spec?
+// Liquibase changeset ID format?
+// ...
+                    </code></pre>
+                    <p class="fragment highlight-red">
+                        Every decision = context switch = slower development
+                    </p>
+                </section>
+            </section>
+
+            <!-- Part 2: The Solution -->
+            <section>
+                <section>
+                    <h1>Part 2</h1>
+                    <h2>The Solution</h2>
+                    <p class="emoji">💡</p>
+                </section>
+
+                <section>
+                    <h2>AI as a Knowledgeable Pair Programmer</h2>
+                    <div class="two-columns">
+                        <div>
+                            <h4 class="highlight-red">NOT</h4>
+                            <ul>
+                                <li>Replacing developers</li>
+                                <li>Making decisions for you</li>
+                                <li>Writing untested code</li>
+                                <li>Magic black box</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 class="highlight-green">YES</h4>
+                            <ul>
+                                <li>Augmenting developers</li>
+                                <li>Encoding team patterns</li>
+                                <li>Consistent output</li>
+                                <li>Transparent templates</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <blockquote class="fragment" style="margin-top: 1em;">
+                        Developers focus on <strong>what</strong> to build,<br>
+                        AI helps with <strong>how</strong> to build it
+                    </blockquote>
+                </section>
+
+                <section>
+                    <h2>Two Approaches to AI-Assisted Development</h2>
+                    <div class="two-columns">
+                        <div>
+                            <h4 class="highlight-red">Vibe Coding</h4>
+                            <p class="small">"Just prompt and pray"</p>
+                            <ul class="small">
+                                <li>One-shot prompts</li>
+                                <li>Unstructured requests</li>
+                                <li>No planning phase</li>
+                                <li>Random patterns</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 class="highlight-green">Structured Agents</h4>
+                            <p class="small">"Think first, implement in phases"</p>
+                            <ul class="small">
+                                <li>Spec → Story → Plan → Implement</li>
+                                <li>Specialized agents per layer</li>
+                                <li>Team patterns encoded</li>
+                                <li>Consistent output</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <section>
+                    <h2>Vibe Coding: The Reality</h2>
+                    <pre><code class="plaintext" data-trim>
+Prompt: "Add payment processing feature"
+
+Result: 47 files changed, 3,200 insertions(+)
+                    </code></pre>
+                    <ul class="fragment">
+                        <li class="highlight-red">Massive, unreviewable PRs</li>
+                        <li class="highlight-red">Mixed patterns and conventions</li>
+                        <li class="highlight-red">No traceability to requirements</li>
+                        <li class="highlight-red">Teammates can't understand the changes</li>
+                        <li class="highlight-red">Different output every time</li>
+                    </ul>
+                    <aside class="notes">
+                        This is what happens when you ask AI to build a feature without structure.
+                        The output might work, but can your team maintain it?
+                    </aside>
+                </section>
+
+                <section>
+                    <h2>The Code Review Problem</h2>
+                    <div class="diagram">
+<pre>
+┌─────────────────────────────────────────────────────────────────┐
+│                    VIBE CODED PR                                │
+├─────────────────────────────────────────────────────────────────┤
+│  47 files changed                                               │
+│  ├── src/main/java/...  (mixed patterns)                       │
+│  ├── src/test/...       (inconsistent test styles)             │
+│  ├── config/...         (new conventions introduced)           │
+│  └── ???                (where did this come from?)            │
+│                                                                 │
+│  Reviewer: "I... I don't even know where to start"             │
+│  Reviewer: "LGTM 🤷" (gives up)                                 │
+└─────────────────────────────────────────────────────────────────┘
+</pre>
+                    </div>
+                    <p class="fragment highlight-orange">
+                        Unreviewable code = Technical debt = Future problems
+                    </p>
+                </section>
+
+                <section>
+                    <h2>Structured Approach: Predictable Changes</h2>
+                    <div class="diagram">
+<pre>
+┌─────────────────────────────────────────────────────────────────┐
+│                    PHASE-BY-PHASE PR                            │
+├─────────────────────────────────────────────────────────────────┤
+│  Phase 1: Persistence (5 files)                                 │
+│  ├── PaymentStatus.java        ✓ follows entity template       │
+│  ├── PaymentStatusId.java      ✓ composite key pattern         │
+│  ├── PaymentStatusRepository   ✓ standard repository           │
+│  ├── changelog.xml             ✓ Liquibase convention          │
+│  └── RepositoryTest.groovy     ✓ test naming convention        │
+│                                                                 │
+│  Reviewer: "Clean. Follows our patterns. Approved."            │
+└─────────────────────────────────────────────────────────────────┘
+</pre>
+                    </div>
+                    <p class="fragment highlight-green">
+                        Small, focused changes that teammates understand
+                    </p>
+                </section>
+
+                <section>
+                    <h2>Comparison: Output Quality</h2>
+                    <table>
+                        <tr>
+                            <th></th>
+                            <th class="highlight-red">Vibe Coding</th>
+                            <th class="highlight-green">Structured Agents</th>
+                        </tr>
+                        <tr>
+                            <td>PR Size</td>
+                            <td>40+ files, thousands of lines</td>
+                            <td>5-10 files per phase</td>
+                        </tr>
+                        <tr>
+                            <td>Patterns</td>
+                            <td>Random, AI's interpretation</td>
+                            <td>Team's documented standards</td>
+                        </tr>
+                        <tr>
+                            <td>Reviewability</td>
+                            <td>"LGTM" (gave up reviewing)</td>
+                            <td>Meaningful review possible</td>
+                        </tr>
+                        <tr>
+                            <td>Predictability</td>
+                            <td>Different every time</td>
+                            <td>Consistent, reproducible</td>
+                        </tr>
+                        <tr>
+                            <td>Traceability</td>
+                            <td>None</td>
+                            <td>Spec → Story → Plan → Code</td>
+                        </tr>
+                    </table>
+                </section>
+
+                <section>
+                    <h2>The Workflow Overview</h2>
+                    <div class="diagram">
+<pre>
+┌─────────────────┐     ┌─────────────────┐     ┌─────────────────┐
+│  SPECIFICATION  │ ──▶ │     STORIES     │ ──▶ │      PLAN       │
+│   /spec PROJ    │     │  /story PROJ-1  │     │   /plan PROJ-1  │
+└─────────────────┘     └─────────────────┘     └─────────────────┘
+                                                        │
+                        ┌───────────────────────────────┘
+                        ▼
+┌─────────────────────────────────────────────────────────────────┐
+│                    IMPLEMENTATION PHASES                         │
+│  Phase 1: Persistence    → @persistence-developer               │
+│  Phase 2: Integration    → @integration-client-developer        │
+│  Phase 3: Domain Logic   → @domain-developer                    │
+│  Phase 4: REST API       → @rest-api-developer                  │
+│  Phase 5: Verification   → ./gradlew check                      │
+└─────────────────────────────────────────────────────────────────┘
+                        │
+                        ▼
+┌─────────────────────────────────────────────────────────────────┐
+│                    VERIFICATION & DELIVERY                       │
+│  ./gradlew check → git commit → git push                        │
+└─────────────────────────────────────────────────────────────────┘
+</pre>
+                    </div>
+                    <aside class="notes">
+                        The workflow is structured and traceable. Each step produces
+                        artifacts that feed into the next step.
+                    </aside>
+                </section>
+
+                <section>
+                    <h2>Inside-Out Implementation</h2>
+                    <div class="diagram">
+<pre>
+                ┌─────────────────────┐
+                │   REST API Layer    │  Phase 4
+                │   Controllers       │  ────────▶
+                └──────────┬──────────┘
+                           │ depends on
+                           ▼
+                ┌─────────────────────┐
+                │   Domain Layer      │  Phase 3
+                │   Facades, Logic    │  ────────▶
+                └──────────┬──────────┘
+                           │ depends on
+                           ▼
+    ┌──────────────────────┴──────────────────────┐
+    │                                             │
+┌───┴───────────────┐           ┌─────────────────┴───┐
+│  Persistence      │           │  Integration        │
+│  Entities, Repos  │           │  REST Clients       │
+│  Phase 1          │           │  Phase 2            │
+└───────────────────┘           └─────────────────────┘
+</pre>
+                    </div>
+                    <p class="small">Each layer builds on stable interfaces from previous phases</p>
+                </section>
+
+                <section>
+                    <h2>Why This Order?</h2>
+                    <table>
+                        <tr>
+                            <th>Phase</th>
+                            <th>Depends On</th>
+                            <th>Reason</th>
+                        </tr>
+                        <tr>
+                            <td>1. Persistence</td>
+                            <td>Nothing</td>
+                            <td>Data model is foundation</td>
+                        </tr>
+                        <tr>
+                            <td>2. Integration</td>
+                            <td>Nothing</td>
+                            <td>External APIs defined externally</td>
+                        </tr>
+                        <tr>
+                            <td>3. Domain</td>
+                            <td>Phases 1 & 2</td>
+                            <td>Business logic uses data + clients</td>
+                        </tr>
+                        <tr>
+                            <td>4. REST API</td>
+                            <td>Phase 3</td>
+                            <td>Controllers call facades</td>
+                        </tr>
+                    </table>
+                </section>
+            </section>
+
+            <!-- Part 3: Specification & Planning -->
+            <section>
+                <section>
+                    <h1>Part 3</h1>
+                    <h2>Specification & Planning</h2>
+                    <p class="emoji">📋</p>
+                    <aside class="notes">
+                        Before we implement anything, we need to understand what to build
+                        and break it down into manageable pieces.
+                    </aside>
+                </section>
+
+                <section>
+                    <h2>The Three Pre-Implementation Phases</h2>
+                    <div class="diagram">
+<pre>
+┌─────────────────────────────────────────────────────────────────┐
+│                    SPECIFICATION PHASE                           │
+│  /spec {PROJECT} "{Feature Name}"                                │
+│  → docs/specifications/SPEC-{PROJECT}-{NUM}-{name}.md           │
+│                                                                  │
+│  PRD-style document with business context, requirements,        │
+│  data models, API contracts                                     │
+└─────────────────────────────────────────────────────────────────┘
+                              │
+                              ▼
+┌─────────────────────────────────────────────────────────────────┐
+│                    STORY DECOMPOSITION                           │
+│  /story {PROJECT}-{NUM} "{Story Description}"                    │
+│  → docs/stories/{PROJECT}-{NUM}-{short-desc}.md                 │
+│                                                                  │
+│  User stories with BDD acceptance criteria (Given/When/Then)    │
+└─────────────────────────────────────────────────────────────────┘
+                              │
+                              ▼
+┌─────────────────────────────────────────────────────────────────┐
+│                    IMPLEMENTATION PLANNING                       │
+│  /plan {PROJECT}-{NUM}                                           │
+│  → docs/plans/PLAN-{PROJECT}-{NUM}-{feature}.md                 │
+│                                                                  │
+│  Phased implementation plan with agent assignments              │
+└─────────────────────────────────────────────────────────────────┘
+</pre>
+                    </div>
+                </section>
+
+                <section>
+                    <h2>Phase 1: Specification</h2>
+                    <p>Create a high-level PRD-style specification</p>
+                    <pre><code class="bash" data-trim>
+/spec PAYMENT "Payment Gateway Integration"
+                    </code></pre>
+                    <div class="fragment">
+                        <h4>What goes into a spec?</h4>
+                        <ul class="small">
+                            <li><strong>Product Overview:</strong> Business context and goals</li>
+                            <li><strong>Features:</strong> What capabilities the system will have</li>
+                            <li><strong>Data Models:</strong> Entities and relationships</li>
+                            <li><strong>API Contracts:</strong> Endpoints, requests, responses</li>
+                            <li><strong>Technical Decisions:</strong> Architecture choices</li>
+                        </ul>
+                    </div>
+                    <aside class="notes">
+                        The spec is like a PRD - it describes the complete feature from
+                        a business and technical perspective before any code is written.
+                    </aside>
+                </section>
+
+                <section>
+                    <h2>Specification Example</h2>
+                    <pre><code class="markdown" data-trim data-line-numbers="1-8|10-15|17-24">
+# SPEC-PAYMENT-001: Payment Gateway Integration
+
+## Product Overview
+Enable real-time payment status checks from external gateway...
+
+## Features
+- Query payment status by transaction ID
+- Handle multiple payment methods...
+
+## Data Models
+### PaymentStatus Entity
+- id: PaymentStatusId (composite: transactionId, timestamp)
+- status: enum (PENDING, COMPLETED, FAILED)
+- paymentMethod: String
+- amount: BigDecimal...
+
+## API Contracts
+### GET /api/v1/payments/{transactionId}/status
+Response:
+{
+  "transactionId": "TXN123",
+  "status": "COMPLETED",
+  "completedAt": "2024-01-23T10:30:00Z"
+}
+                    </code></pre>
+                    <p class="small fragment">Complete picture BEFORE breaking into stories</p>
+                </section>
+
+                <section>
+                    <h2>Why Specification First?</h2>
+                    <table>
+                        <tr>
+                            <th>Benefit</th>
+                            <th>Explanation</th>
+                        </tr>
+                        <tr>
+                            <td class="highlight-blue">Shared Understanding</td>
+                            <td>Everyone knows what we're building</td>
+                        </tr>
+                        <tr>
+                            <td class="highlight-green">Traceability</td>
+                            <td>Link code back to requirements</td>
+                        </tr>
+                        <tr>
+                            <td class="highlight-orange">Context for AI</td>
+                            <td>AI understands full picture when generating code</td>
+                        </tr>
+                        <tr>
+                            <td class="highlight-blue">Design Review</td>
+                            <td>Catch issues before implementation</td>
+                        </tr>
+                    </table>
+                </section>
+
+                <section>
+                    <h2>Flexibility: External Specs Welcome</h2>
+                    <p>Not bound to <code>/spec</code> command format</p>
+                    <ul class="fragment">
+                        <li>✅ Manually written markdown documents</li>
+                        <li>✅ Confluence exports</li>
+                        <li>✅ Architecture Decision Records (ADRs)</li>
+                        <li>✅ Technical design docs</li>
+                        <li>✅ Even no spec at all (standalone stories)</li>
+                    </ul>
+                    <blockquote class="fragment" style="margin-top: 1em;">
+                        The workflow adapts to YOUR process
+                    </blockquote>
+                </section>
+
+                <section>
+                    <h2>Phase 2: Story Decomposition</h2>
+                    <p>Break specification into implementable user stories</p>
+                    <pre><code class="bash" data-trim>
+/story PAYMENT-001 "Check payment status via REST API"
+                    </code></pre>
+                    <div class="fragment">
+                        <h4>What's in a story?</h4>
+                        <ul class="small">
+                            <li><strong>User Story:</strong> As a... I want... So that...</li>
+                            <li><strong>BDD Acceptance Criteria:</strong> Given/When/Then scenarios</li>
+                            <li><strong>Business Rules:</strong> Edge cases and constraints</li>
+                            <li><strong>Link to Spec:</strong> Traceability to parent document</li>
+                        </ul>
+                    </div>
+                    <aside class="notes">
+                        Stories are the unit of work. They're small, testable, and
+                        independently deliverable.
+                    </aside>
+                </section>
+
+                <section>
+                    <h2>BDD Acceptance Criteria</h2>
+                    <pre><code class="gherkin" data-trim>
+## Acceptance Criteria
+
+### Scenario 1: Successfully retrieve payment status
+**Given** a valid transaction ID exists in the system
+**When** client calls GET /api/v1/payments/{transactionId}/status
+**Then** return 200 OK with payment details
+**And** include status (PENDING, COMPLETED, FAILED)
+
+### Scenario 2: Handle not found
+**Given** transaction ID does not exist
+**When** client calls the API
+**Then** return 404 Not Found
+
+### Scenario 3: Gateway timeout
+**Given** payment gateway is slow to respond
+**When** request takes longer than 5 seconds
+**Then** return 504 Gateway Timeout
+**And** log error for monitoring
+                    </code></pre>
+                    <p class="small fragment highlight-green">These drive test cases and agent instructions</p>
+                </section>
+
+                <section>
+                    <h2>Why BDD Format?</h2>
+                    <ul>
+                        <li><strong>Testable:</strong> Maps directly to test scenarios</li>
+                        <li><strong>Unambiguous:</strong> Clear inputs and expected outputs</li>
+                        <li><strong>Business-Readable:</strong> Non-technical stakeholders can review</li>
+                        <li><strong>AI-Friendly:</strong> Agents understand exact requirements</li>
+                    </ul>
+                    <blockquote class="fragment" style="margin-top: 1em;">
+                        Good acceptance criteria = Good tests = Good code
+                    </blockquote>
+                </section>
+
+                <section>
+                    <h2>Phase 3: Implementation Planning</h2>
+                    <p>Generate phased plan with agent assignments</p>
+                    <pre><code class="bash" data-trim>
+/plan PAYMENT-001
+                    </code></pre>
+                    <div class="fragment">
+                        <h4>What's in the plan?</h4>
+                        <ul class="small">
+                            <li><strong>Phase Identification:</strong> Which phases to execute/skip</li>
+                            <li><strong>Task Breakdown:</strong> Specific files and components to create</li>
+                            <li><strong>Agent Assignments:</strong> Which agent handles each phase</li>
+                            <li><strong>Test Scenarios:</strong> Derived from BDD criteria</li>
+                            <li><strong>Progress Tracking:</strong> Checkboxes for completion</li>
+                        </ul>
+                    </div>
+                </section>
+
+                <section>
+                    <h2>Example Implementation Plan</h2>
+                    <pre><code class="markdown" data-trim data-line-numbers="1-6|8-14|16-22|24-29">
+# PLAN-PAYMENT-001: Payment Status Check
+
+## Phase Analysis
+- ✅ Phase 1: Persistence (new PaymentStatus entity)
+- ✅ Phase 2: Integration (PaymentGatewayClient)
+- ✅ Phase 3: Domain (PaymentFacade)
+- ✅ Phase 4: REST API (PaymentStatusController)
+- ✅ Phase 5: Integration Testing
+
+## Phase 1: Persistence (@persistence-developer)
+- [ ] Create PaymentStatus entity
+- [ ] Create PaymentStatusId composite key
+- [ ] Create PaymentStatusRepository
+- [ ] Create Liquibase changelog
+- [ ] Write repository tests
+
+## Phase 2: Integration Clients (@integration-client-developer)
+- [ ] Create PaymentGatewayClient
+- [ ] Create client configuration with circuit breaker
+- [ ] Create PaymentStatusResponse DTO
+- [ ] Create client exception hierarchy
+- [ ] Write client tests with MockRestServiceServer
+
+## Phase 3: Domain Logic (@domain-developer)
+- [ ] Create PaymentFacade
+- [ ] Implement status enrichment logic
+- [ ] Add PaymentMetrics
+- [ ] Create domain exceptions
+- [ ] Write facade tests
+                    </code></pre>
+                </section>
+
+                <section>
+                    <h2>Smart Phase Detection</h2>
+                    <p>Not every story needs all phases</p>
+                    <table class="small">
+                        <tr>
+                            <th>Story Type</th>
+                            <th>Phases</th>
+                        </tr>
+                        <tr>
+                            <td>Full stack feature</td>
+                            <td>1, 2, 3, 4, 5 (all phases)</td>
+                        </tr>
+                        <tr>
+                            <td>API-only change</td>
+                            <td>Skip 1, 2 (no new data/clients)</td>
+                        </tr>
+                        <tr>
+                            <td>External integration</td>
+                            <td>Skip 1, 4 (no entity/API)</td>
+                        </tr>
+                        <tr>
+                            <td>Backend job</td>
+                            <td>Skip 4 (no REST API)</td>
+                        </tr>
+                        <tr>
+                            <td>Pure CRUD</td>
+                            <td>Skip 3 (no complex logic)</td>
+                        </tr>
+                    </table>
+                    <p class="fragment small" style="margin-top: 1em;">
+                        Planning phase identifies what's truly needed
+                    </p>
+                </section>
+
+                <section>
+                    <h2>The Complete Pre-Implementation Flow</h2>
+                    <div class="diagram">
+<pre>
+SPECIFICATION          STORIES               PLAN
+    ↓                    ↓                    ↓
+What to build?      How to break it?    How to implement?
+                         
+"Payment feature"  →  "API endpoint"    →  Phase 1: Entities
+                      "Error handling"      Phase 2: Client
+                      "Monitoring"          Phase 3: Logic
+                                           Phase 4: REST API
+                                           Phase 5: Testing
+</pre>
+                    </div>
+                    <p class="fragment highlight-blue">
+                        Think first, code later
+                    </p>
+                </section>
+
+                <section>
+                    <h2>Benefits of This Approach</h2>
+                    <table>
+                        <tr>
+                            <th>Traditional</th>
+                            <th>Specification-First</th>
+                        </tr>
+                        <tr>
+                            <td>Start coding immediately</td>
+                            <td class="highlight-green">Design, then implement</td>
+                        </tr>
+                        <tr>
+                            <td>Discover issues during coding</td>
+                            <td class="highlight-green">Catch issues during planning</td>
+                        </tr>
+                        <tr>
+                            <td>Requirements drift</td>
+                            <td class="highlight-green">Documented and traceable</td>
+                        </tr>
+                        <tr>
+                            <td>Inconsistent approach</td>
+                            <td class="highlight-green">Structured phased execution</td>
+                        </tr>
+                        <tr>
+                            <td>Manual context management</td>
+                            <td class="highlight-green">AI has full context</td>
+                        </tr>
+                    </table>
+                </section>
+            </section>
+
+            <!-- Part 4: The Agents -->
+            <section>
+                <section>
+                    <h1>Part 4</h1>
+                    <h2>The Agents</h2>
+                    <p class="emoji">🤖</p>
+                </section>
+
+                <section>
+                    <h2>What is an Agent?</h2>
+                    <ul>
+                        <li><strong>Markdown file</strong> with specialized instructions</li>
+                        <li>Contains <strong>templates</strong>, patterns, checklists</li>
+                        <li>Encodes <strong>team knowledge</strong> and conventions</li>
+                        <li>Lives in <code>.claude/agents/</code> directory</li>
+                    </ul>
+                    <pre class="fragment"><code class="plaintext" data-trim>
+.claude/agents/
+├── persistence-developer.md
+├── integration-client-developer.md
+├── domain-developer.md
+├── rest-api-developer.md
+├── component-test-infrastructure.md
+└── component-test-developer.md
+                    </code></pre>
+                </section>
+
+                <section>
+                    <h2>Agent Inventory</h2>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5em;">
+                        <div class="agent-card">
+                            <h4>🗄️ Persistence Developer</h4>
+                            <p>Entities, repositories, Liquibase changelogs</p>
+                        </div>
+                        <div class="agent-card">
+                            <h4>🔌 Integration Client Developer</h4>
+                            <p>REST clients, resilience patterns, health indicators</p>
+                        </div>
+                        <div class="agent-card">
+                            <h4>⚙️ Domain Logic Developer</h4>
+                            <p>Facades, services, business logic, metrics</p>
+                        </div>
+                        <div class="agent-card">
+                            <h4>🌐 REST API Developer</h4>
+                            <p>Controllers, DTOs, OpenAPI, .http files</p>
+                        </div>
+                        <div class="agent-card">
+                            <h4>🏗️ Component Test Infrastructure</h4>
+                            <p>TestContainers, base classes, test utilities</p>
+                        </div>
+                        <div class="agent-card">
+                            <h4>🧪 Component Test Developer</h4>
+                            <p>BDD scenarios, WireMock stubs, E2E tests</p>
+                        </div>
+                        <div class="agent-card agent-card-future">
+                            <h4>⏰ Scheduler Agent</h4>
+                            <p>Scheduled jobs, cron expressions, batch processing</p>
+                        </div>
+                        <div class="agent-card agent-card-future">
+                            <h4>📨 Async Communication Agent</h4>
+                            <p>Kafka, PubSub, message producers/consumers</p>
+                        </div>
+                        <div class="agent-card agent-card-future">
+                            <h4>📋 Logging Agent</h4>
+                            <p>Structured logging, MDC context, log standards</p>
+                        </div>
+                    </div>
+                    <p class="small" style="margin-top: 0.5em; color: #8b949e;">
+                        <span style="border: 1px dashed #d29922; padding: 0.1em 0.3em; border-radius: 4px;">Dashed</span> = Planned agents
+                    </p>
+                </section>
+
+                <section>
+                    <h2>Anatomy of an Agent</h2>
+                    <pre><code class="markdown" data-trim data-line-numbers="1-5|7-15|17-30">
+# Persistence Developer Agent
+
+## Purpose
+Creates JPA entities, repositories, Liquibase changelogs...
+
+## Scope
+**IN SCOPE:**
+- JPA entities with proper annotations
+- Spring Data repository interfaces
+- Liquibase XML changelogs
+- Repository tests
+
+**OUT OF SCOPE:**
+- REST controllers (use REST API agent)
+- Business logic (use Domain Logic agent)
+
+## Code Templates
+
+### Entity Template
+```java
+@Entity
+@Table(name = "{table_name}")
+@Data
+@EntityListeners(AuditingEntityListener.class)
+public class {Entity} implements Persistable<{Entity}Id> {
+    @EmbeddedId
+    private {Entity}Id id;
+    // ...
+}
+```
+                    </code></pre>
+                    <p class="small fragment">This is YOUR team's knowledge, documented and reusable</p>
+                </section>
+
+                <section>
+                    <h2>Why Specialized Agents?</h2>
+                    <table>
+                        <tr>
+                            <th>Benefit</th>
+                            <th>Explanation</th>
+                        </tr>
+                        <tr>
+                            <td class="highlight-blue">Focus</td>
+                            <td>Each agent knows one thing deeply</td>
+                        </tr>
+                        <tr>
+                            <td class="highlight-green">Quality</td>
+                            <td>Templates enforce best practices</td>
+                        </tr>
+                        <tr>
+                            <td class="highlight-orange">Consistency</td>
+                            <td>Same patterns across all features</td>
+                        </tr>
+                        <tr>
+                            <td class="highlight-blue">Maintainability</td>
+                            <td>Update agent = update all future code</td>
+                        </tr>
+                    </table>
+                </section>
+
+                <section>
+                    <h2>Example: Integration Client Agent</h2>
+                    <p>Key patterns it enforces:</p>
+                    <pre><code class="java" data-trim>
+// ✅ URL placeholders (avoids metric explosion)
+String url = baseUrl + "/api/v1/customers/{customerId}";
+restTemplate.getForObject(url, Response.class, customerId);
+
+// ❌ NOT string concatenation
+String url = baseUrl + "/api/v1/customers/" + customerId;
+                    </code></pre>
+                    <pre class="fragment"><code class="java" data-trim>
+// ✅ Resilience patterns
+Supplier<T> decorated = circuitBreaker
+    .decorateSupplier(retry.decorateSupplier(supplier));
+                    </code></pre>
+                    <pre class="fragment"><code class="java" data-trim>
+// ✅ Exception with retryable flag
+throw new ClientException("Service error", e, true);  // retryable
+throw new ClientException("Not found", e, false);     // not retryable
+                    </code></pre>
+                </section>
+            </section>
+
+            <!-- Part 5: Demo -->
+            <section>
+                <section>
+                    <h1>Part 5</h1>
+                    <h2>Live Demo</h2>
+                    <p class="emoji">🎬</p>
+                </section>
+
+                <section>
+                    <h2>Demo Scenario</h2>
+                    <blockquote>
+                        "Add Payment Status Check feature that calls external Payment Gateway"
+                    </blockquote>
+                    <ol>
+                        <li class="fragment">Create specification (or use existing docs)</li>
+                        <li class="fragment">Break into user story with BDD criteria</li>
+                        <li class="fragment">Generate implementation plan</li>
+                        <li class="fragment">Implement Phase 1: Persistence</li>
+                        <li class="fragment">Implement Phase 2: Integration Client</li>
+                        <li class="fragment">Run tests and review</li>
+                    </ol>
+                    <p class="small fragment" style="margin-top: 1em;">
+                        Complete workflow: Spec → Story → Plan → Implement → Verify
+                    </p>
+                </section>
+
+                <section>
+                    <h2>Step 1: Create Specification</h2>
+                    <pre><code class="bash" data-trim>
+/spec PAYMENT "Payment Gateway Integration"
+                    </code></pre>
+                    <div class="fragment">
+                        <p>Or use existing documentation:</p>
+                        <ul class="small">
+                            <li>Confluence page</li>
+                            <li>Technical design doc</li>
+                            <li>Architecture Decision Record</li>
+                        </ul>
+                        <p class="small" style="margin-top: 0.5em;">
+                            Workflow adapts to your existing process
+                        </p>
+                    </div>
+                </section>
+
+                <section>
+                    <h2>Step 2: Create User Story</h2>
+                    <pre><code class="bash" data-trim>
+/story PAYMENT-001 "Check payment status via REST API"
+                    </code></pre>
+                    <div class="fragment">
+                        <p>Generated story includes:</p>
+                        <ul class="small">
+                            <li>User story format (As a... I want... So that...)</li>
+                            <li>BDD acceptance criteria (Given/When/Then)</li>
+                            <li>Business rules and edge cases</li>
+                            <li>Link back to specification</li>
+                        </ul>
+                    </div>
+                </section>
+
+                <section>
+                    <h2>Step 3: Generate Plan</h2>
+                    <pre><code class="bash" data-trim>
+/plan PAYMENT-001
+                    </code></pre>
+                    <div class="fragment">
+                        <p>Generated plan identifies:</p>
+                        <ul>
+                            <li>Which phases to execute</li>
+                            <li>Which phases to skip</li>
+                            <li>Files to create/modify</li>
+                            <li>Test scenarios needed</li>
+                            <li>Agent assignments per phase</li>
+                        </ul>
+                    </div>
+                </section>
+
+                <section>
+                    <h2>Step 4: Implement Persistence</h2>
+                    <pre><code class="bash" data-trim>
+/implement Phase 1
+                    </code></pre>
+                    <div class="fragment">
+                        <p>Persistence agent creates:</p>
+                        <pre><code class="plaintext" data-trim>
+src/main/java/.../domain/entity/
+├── PaymentStatus.java
+├── PaymentStatusId.java
+└── PaymentStatusEnum.java
+
+src/main/java/.../infrastructure/repository/
+└── PaymentStatusRepository.java
+
+src/main/resources/db/changelog/
+└── PAYMENT-001-create-payment-status-table.xml
+
+src/test/groovy/.../infrastructure/repository/
+└── PaymentStatusRepositoryTest.groovy
+                        </code></pre>
+                    </div>
+                </section>
+
+                <section>
+                    <h2>Step 5: Implement Integration Client</h2>
+                    <pre><code class="bash" data-trim>
+/implement Phase 2
+                    </code></pre>
+                    <div class="fragment">
+                        <p>Integration client agent creates:</p>
+                        <pre><code class="plaintext" data-trim>
+src/main/java/.../infrastructure/client/paymentgateway/
+├── PaymentGatewayClient.java
+├── PaymentGatewayClientConfiguration.java
+├── PaymentGatewayClientProperties.java
+├── PaymentGatewayHealthIndicator.java
+├── dto/
+│   └── PaymentStatusResponse.java
+└── exception/
+    └── PaymentGatewayClientException.java
+
+src/test/groovy/.../infrastructure/client/paymentgateway/
+└── PaymentGatewayClientTest.groovy
+                        </code></pre>
+                    </div>
+                </section>
+
+                <section>
+                    <h2>Step 6: Run Tests</h2>
+                    <pre><code class="bash" data-trim>
+./gradlew test
+                    </code></pre>
+                    <pre class="fragment"><code class="plaintext" data-trim>
+> Task :test
+
+PaymentStatusRepositoryTest
+  ✓ should save and retrieve payment status
+  ✓ should find by transaction id
+
+PaymentGatewayClientTest
+  ✓ should successfully get payment status
+  ✓ should return empty on 404
+  ✓ should retry on 500
+  ✓ should not retry on 400
+
+BUILD SUCCESSFUL
+                    </code></pre>
+                </section>
+
+                <section>
+                    <h2>What Just Happened?</h2>
+                    <table>
+                        <tr>
+                            <th>Metric</th>
+                            <th>Value</th>
+                        </tr>
+                        <tr>
+                            <td>Files created</td>
+                            <td>12</td>
+                        </tr>
+                        <tr>
+                            <td>Lines of code</td>
+                            <td>~800</td>
+                        </tr>
+                        <tr>
+                            <td>Test cases</td>
+                            <td>8</td>
+                        </tr>
+                        <tr>
+                            <td>Patterns followed</td>
+                            <td>All team conventions</td>
+                        </tr>
+                        <tr>
+                            <td>Developer time</td>
+                            <td>Review & adjust</td>
+                        </tr>
+                    </table>
+                </section>
+            </section>
+
+            <!-- Part 6: Developer Experience -->
+            <section>
+                <section>
+                    <h1>Part 6</h1>
+                    <h2>The Developer Experience</h2>
+                    <p class="emoji">👩‍💻</p>
+                </section>
+
+                <section>
+                    <h2>What Changes?</h2>
+                    <table>
+                        <tr>
+                            <th>Before</th>
+                            <th>After</th>
+                        </tr>
+                        <tr>
+                            <td>Write boilerplate from scratch</td>
+                            <td class="highlight-green">Review and refine generated code</td>
+                        </tr>
+                        <tr>
+                            <td>Remember patterns for each layer</td>
+                            <td class="highlight-green">Agent remembers patterns</td>
+                        </tr>
+                        <tr>
+                            <td>Inconsistent conventions</td>
+                            <td class="highlight-green">Consistent output</td>
+                        </tr>
+                        <tr>
+                            <td>Long onboarding</td>
+                            <td class="highlight-green">Self-documenting agents</td>
+                        </tr>
+                    </table>
+                </section>
+
+                <section>
+                    <h2>What Stays the Same?</h2>
+                    <ul>
+                        <li>✅ Developers make all decisions</li>
+                        <li>✅ Code review still required</li>
+                        <li>✅ Tests must pass</li>
+                        <li>✅ Architecture ownership with team</li>
+                        <li>✅ You can always write code manually</li>
+                    </ul>
+                    <blockquote class="fragment" style="margin-top: 1em;">
+                        AI assists, doesn't replace
+                    </blockquote>
+                </section>
+
+                <section>
+                    <h2>When NOT to Use Agents</h2>
+                    <ul>
+                        <li>🔧 Simple one-line fixes</li>
+                        <li>🔍 Highly exploratory work</li>
+                        <li>📚 When you need to learn the pattern</li>
+                        <li>🎨 When templates don't fit your case</li>
+                        <li>⚡ Quick prototypes</li>
+                    </ul>
+                    <p class="fragment small" style="margin-top: 1em;">
+                        Use your judgment - agents are tools, not mandates
+                    </p>
+                </section>
+
+                <section>
+                    <h2>The Review Mindset</h2>
+                    <p>Treat AI output like code from a junior developer:</p>
+                    <ul>
+                        <li class="fragment">✅ Follows patterns correctly</li>
+                        <li class="fragment">⚠️ Might miss edge cases</li>
+                        <li class="fragment">⚠️ Might over-engineer</li>
+                        <li class="fragment">❓ Business logic needs validation</li>
+                    </ul>
+                    <p class="fragment highlight-blue" style="margin-top: 1em;">
+                        Always review. Always test. Always think.
+                    </p>
+                </section>
+            </section>
+
+            <!-- Part 7: Customization -->
+            <section>
+                <section>
+                    <h1>Part 7</h1>
+                    <h2>Customization & Governance</h2>
+                    <p class="emoji">🔧</p>
+                </section>
+
+                <section>
+                    <h2>These Are YOUR Agents</h2>
+                    <ul>
+                        <li>Team owns the agent definitions</li>
+                        <li>Update templates when patterns evolve</li>
+                        <li>Add new agents for new patterns</li>
+                        <li>Version controlled with code</li>
+                    </ul>
+                    <pre class="fragment"><code class="bash" data-trim>
+git log --oneline .claude/agents/
+
+a1b2c3d Update integration-client: add rate limiting
+d4e5f6g Add scheduler-agent for background jobs
+g7h8i9j Fix persistence-agent: correct test naming
+                    </code></pre>
+                </section>
+
+                <section>
+                    <h2>How to Evolve Agents</h2>
+                    <ol>
+                        <li>Notice repeated pattern in code reviews</li>
+                        <li>Update agent template</li>
+                        <li>All future code follows new pattern</li>
+                    </ol>
+                    <div class="fragment" style="margin-top: 1em;">
+                        <p><strong>Example:</strong></p>
+                        <p class="small">"We decided to use Optional instead of null returns"</p>
+                        <pre><code class="java" data-trim>
+// Update in integration-client-developer.md:
+public Optional<Response> getById(String id) {
+    // ... returns Optional.empty() on 404
+}
+                        </code></pre>
+                        <p class="small highlight-green">→ All future clients follow this pattern</p>
+                    </div>
+                </section>
+
+                <section>
+                    <h2>Governance</h2>
+                    <table>
+                        <tr>
+                            <th>Concern</th>
+                            <th>How It's Addressed</th>
+                        </tr>
+                        <tr>
+                            <td>Code quality</td>
+                            <td>PR reviews still happen</td>
+                        </tr>
+                        <tr>
+                            <td>Architecture</td>
+                            <td>ArchUnit enforces rules</td>
+                        </tr>
+                        <tr>
+                            <td>Standards</td>
+                            <td>Agents encode standards</td>
+                        </tr>
+                        <tr>
+                            <td>Flexibility</td>
+                            <td>Agents are suggestions, not mandates</td>
+                        </tr>
+                    </table>
+                </section>
+            </section>
+
+            <!-- Part 8: Getting Started -->
+            <section>
+                <section>
+                    <h1>Part 8</h1>
+                    <h2>Getting Started</h2>
+                    <p class="emoji">🚀</p>
+                </section>
+
+                <section>
+                    <h2>Try It Today</h2>
+                    <pre><code class="bash" data-trim>
+# 1. Read the workflow documentation
+cat AI-WORKFLOW-SPRING-BOOT.md
+
+# 2. Look at an agent definition
+cat .claude/agents/persistence-developer.md
+
+# 3. Try the complete workflow
+/spec YOUR-PROJECT "Feature Name"    # Create spec
+/story YOUR-001 "User story"         # Break into stories
+/plan YOUR-001                        # Generate plan
+
+# 4. Implement phase by phase
+/implement Phase 1                    # Persistence
+/implement Phase 2                    # Integration clients
+/implement Phase 3                    # Domain logic
+/implement Phase 4                    # REST API
+                    </code></pre>
+                </section>
+
+                <section>
+                    <h2>Resources</h2>
+                    <ul>
+                        <li><code>AI-WORKFLOW-SPRING-BOOT.md</code> - Full workflow docs</li>
+                        <li><code>.claude/agents/*.md</code> - Agent definitions</li>
+                        <li><code>CLAUDE.md</code> - Project conventions</li>
+                        <li>Team Slack channel for questions</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h2>Feedback Welcome</h2>
+                    <ul>
+                        <li>Agents are living documents</li>
+                        <li>Report issues, suggest improvements</li>
+                        <li>Help encode YOUR knowledge</li>
+                    </ul>
+                    <blockquote class="fragment" style="margin-top: 1em;">
+                        The best agent is one that captures how YOUR team builds software
+                    </blockquote>
+                </section>
+            </section>
+
+            <!-- Q&A -->
+            <section>
+                <section>
+                    <h1>Q&A</h1>
+                    <p class="emoji">❓</p>
+                </section>
+
+                <section>
+                    <h2>Common Questions</h2>
+                    <p><strong>"Will this replace developers?"</strong></p>
+                    <p class="small">No. Developers design, decide, review. AI handles boilerplate.</p>
+
+                    <p class="fragment"><strong>"What about code quality?"</strong></p>
+                    <p class="small fragment">Same review process. AI follows your patterns.</p>
+
+                    <p class="fragment"><strong>"What if AI generates wrong code?"</strong></p>
+                    <p class="small fragment">You review everything. Tests must pass. Treat it like junior dev output.</p>
+                </section>
+
+                <section>
+                    <h2>More Questions</h2>
+                    <p><strong>"How do we maintain agents?"</strong></p>
+                    <p class="small">Same as documentation. Update when patterns change.</p>
+
+                    <p class="fragment"><strong>"Can we use this for other projects?"</strong></p>
+                    <p class="small fragment">Yes! Agents are portable. Adjust for project specifics.</p>
+
+                    <p class="fragment"><strong>"What about sensitive code?"</strong></p>
+                    <p class="small fragment">Agent templates are generic patterns. Your business logic stays yours.</p>
+                </section>
+            </section>
+
+            <!-- Final Slide -->
+            <section>
+                <h1>Thank You!</h1>
+                <p style="margin-top: 2em;">
+                    <span class="highlight-blue">AI-WORKFLOW-SPRING-BOOT.md</span>
+                </p>
+                <p class="small">
+                    Start with <code>/spec PROJECT "Feature"</code><br>
+                    then <code>/story</code>, <code>/plan</code>, and <code>/implement</code>
+                </p>
+                <p class="small" style="margin-top: 1em; color: #8b949e;">
+                    Think → Document → Plan → Implement → Verify
+                </p>
+            </section>
+
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/reveal.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/plugin/notes/notes.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/plugin/highlight/highlight.min.js"></script>
+    <script>
+        Reveal.initialize({
+            hash: true,
+            slideNumber: 'c/t',
+            showSlideNumber: 'speaker',
+            transition: 'slide',
+            plugins: [ RevealNotes, RevealHighlight ],
+            // Speaker notes window
+            // Press 'S' to open speaker view
+        });
+    </script>
+</body>
+</html>
